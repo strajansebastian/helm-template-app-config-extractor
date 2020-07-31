@@ -3,7 +3,7 @@
 
 ## Description
 
-Generate local files from all the ConfigMap/Secret objects that are mounted in:
+You can use this script to generate local files from all the ConfigMap/Secret objects that are mounted in:
 - deployments
 - pods
 
@@ -20,7 +20,7 @@ docker build --tag helm-template-app-config-extractor:latest .
 
 #### run
 
-usage example for app_name
+usage example for app-name
 
 helm code and values is located in /etc/custom_location/helm, but paths can be changed based on your needs.
 mount the paths that you have inside the:
@@ -40,18 +40,18 @@ DHELM_CONF_IMG="docker-registry.mgmt.sharks.cloud/helm-template-app-config-extra
 
 # docker helm config run values
 DHELM_CRV=""
-DHELM_CRV="$DHELM_CRV -f /helm/values/app_name/stage.yaml"
+DHELM_CRV="$DHELM_CRV -f /helm/values/app-name/stage.yaml"
 DHELM_CRV="$DHELM_CRV -f /helm/values/000_SHARED_VALUES/libdependency.conf.yaml"
 DHELM_CRV="$DHELM_CRV -f /helm/values/000_SHARED_VALUES/stage-conf-twemproxy-nutcracker.yaml"
 DHELM_CRV="$DHELM_CRV --set tag=$DOCKER_IMAGE_TAG_APP_NAME,customValue.exampleURL=http://SERVER_IP:$DOCKER_PORT_APP_NAME"
 
-docker run $DHELM_CONF_MOUNTS $DHELM_CONF_IMG python3 /app/helm-template-get-app-configs.py -l INFO -k deployment -c /helm/output -n ns-template-demo app_name /helm/charts/app_name -- $DHELM_CRV
+docker run $DHELM_CONF_MOUNTS $DHELM_CONF_IMG python3 /app/helm-template-get-app-configs.py -l INFO -k deployment -c /helm/output -n ns-template-demo app-name /helm/charts/app-name -- $DHELM_CRV
 
 
 tree /etc/custom_location/config
 # config/
-# └── deployment_app_name
-#    ├── container_app_name
+# └── deployment_app-name
+#    ├── container_app-name
 #    │   └── config
 #    │       ├── etc_apache2_conf_logging.conf
 #    │       ├── etc_apache2_conf_mpm-prefork-workers.conf
@@ -59,14 +59,14 @@ tree /etc/custom_location/config
 #    │       ├── etc_apache2_conf_requests.conf
 #    │       ├── oracle
 #    │       │   └── tnsnames.ora
-#    │       ├── app_name
-#    │       │   └── app_name.conf
+#    │       ├── app-name
+#    │       │   └── app-name.conf
 #    │       └── libdependency
 #    │           └── libdependency.conf
-#    ├── container_app_name-proc-police
+#    ├── container_app-name-proc-police
 #    │   └── config
 #    │       └── etc_profile.d_proc-police.sh
-#    └── container_app_name-twemproxy
+#    └── container_app-name-twemproxy
 #        └── config
 #            └── nutcracker.yml
 
